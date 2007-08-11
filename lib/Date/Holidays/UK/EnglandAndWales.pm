@@ -1,8 +1,13 @@
 package Date::Holidays::UK::EnglandAndWales;
 use strict;
 use warnings;
-use base qw(Exporter);
-our $VERSION = '0.01';
+
+our $VERSION = '0.02'; # Added tie
+
+require Exporter;
+require Tie::Hash ;
+
+our @ISA	= qw( Exporter Tie::StdHash );
 our @EXPORT = qw( is_uk_holiday );
 
 =head1 NAME
@@ -36,9 +41,11 @@ and maintain its API.
 
 =head2 USE
 
-	is_uk_holiday( $year, $month, $day )
+=head3 is_uk_holiday( $year, $month, $day )
 
-	Date::Holidays::UK::EnglandAndWales->is_uk_holiday( $year, $month, $day )
+=head3 is_holiday( $year, $month, $day );
+
+=head3 Date::Holidays::UK::EnglandAndWales->is_holiday( $year, $month, $day )
 
 May be called as class method or subroutine.
 Returns the name of the Holiday that falls on the given day, or undef
@@ -56,85 +63,88 @@ be removed in a future version.
 
 =cut
 
-# XXX either programatically fill these, or just do the monkey work
-# OOK!
-our %holidays;
+our (%holidays, %_holidays);
 
-$holidays{ 2004,  1,  1 } =
-$holidays{ 2005,  1,  3 } =
-$holidays{ 2006,  1,  2 } =
-$holidays{ 2007,  1,  1 } =
-$holidays{ 2008,  1,  1 } =
-$holidays{ 2009,  1,  1 } =
-$holidays{ 2010,  1,  1 } = "New Year's Day";
+$_holidays{ 2005,  1,  3 } =
+$_holidays{ 2006,  1,  2 } = "Substitute Bank Holiday in lieu of 1 Jan";
 
-$holidays{ 2004,  4,  9 } =
-$holidays{ 2005,  3, 25 } =
-$holidays{ 2006,  4, 14 } =
-$holidays{ 2007,  4,  6 } =
-$holidays{ 2008,  3, 21 } =
-$holidays{ 2009,  4, 10 } =
-$holidays{ 2010,  4,  2 } = "Good Friday";
+$_holidays{ 2004,  4,  9 } =
+$_holidays{ 2005,  3, 25 } =
+$_holidays{ 2006,  4, 14 } =
+$_holidays{ 2007,  4,  6 } =
+$_holidays{ 2008,  3, 21 } =
+$_holidays{ 2009,  4, 10 } =
+$_holidays{ 2010,  4,  2 } = "Good Friday";
 
-$holidays{ 2004,  4, 12 } =
-$holidays{ 2005,  3, 28 } =
-$holidays{ 2006,  4, 17 } =
-$holidays{ 2007,  4,  9 } =
-$holidays{ 2008,  3, 24 } =
-$holidays{ 2009,  4, 13 } =
-$holidays{ 2010,  4,  5 } = "Easter Monday";
+$_holidays{ 2004,  4, 12 } =
+$_holidays{ 2005,  3, 28 } =
+$_holidays{ 2006,  4, 17 } =
+$_holidays{ 2007,  4,  9 } =
+$_holidays{ 2008,  3, 24 } =
+$_holidays{ 2009,  4, 13 } =
+$_holidays{ 2010,  4,  5 } = "Easter Monday";
 
-$holidays{ 2004,  5,  3 } =
-$holidays{ 2005,  5,  2 } =
-$holidays{ 2006,  5,  1 } =
-$holidays{ 2007,  5,  7 } =
-$holidays{ 2008,  5,  5 } =
-$holidays{ 2009,  5,  4 } =
-$holidays{ 2010,  5,  3 } = "Early May Bank Holiday";
+$_holidays{ 2004,  5,  3 } =
+$_holidays{ 2005,  5,  2 } =
+$_holidays{ 2006,  5,  1 } =
+$_holidays{ 2007,  5,  7 } =
+$_holidays{ 2008,  5,  5 } =
+$_holidays{ 2009,  5,  4 } =
+$_holidays{ 2010,  5,  3 } = "Early May Bank Holiday";
 
-$holidays{ 2004,  5, 31 } =
-$holidays{ 2005,  5, 30 } =
-$holidays{ 2006,  5, 29 } =
-$holidays{ 2007,  5, 28 } =
-$holidays{ 2008,  5, 26 } =
-$holidays{ 2009,  5, 25 } =
-$holidays{ 2010,  5, 31 } = "Spring Bank Holiday";
+$_holidays{ 2004,  5, 31 } =
+$_holidays{ 2005,  5, 30 } =
+$_holidays{ 2006,  5, 29 } =
+$_holidays{ 2007,  5, 28 } =
+$_holidays{ 2008,  5, 26 } =
+$_holidays{ 2009,  5, 25 } =
+$_holidays{ 2010,  5, 31 } = "Spring Bank Holiday";
 
-$holidays{ 2004,  8, 30 } =
-$holidays{ 2005,  8, 29 } =
-$holidays{ 2006,  8, 28 } =
-$holidays{ 2007,  8, 27 } =
-$holidays{ 2008,  8, 25 } =
-$holidays{ 2009,  8, 31 } =
-$holidays{ 2010,  8, 30 } = "Summer Bank Holiday";
+$_holidays{ 2004,  8, 30 } =
+$_holidays{ 2005,  8, 29 } =
+$_holidays{ 2006,  8, 28 } =
+$_holidays{ 2007,  8, 27 } =
+$_holidays{ 2008,  8, 25 } =
+$_holidays{ 2009,  8, 31 } =
+$_holidays{ 2010,  8, 30 } = "Summer Bank Holiday";
 
-$holidays{ $_, 12, 25 } = "Christmas Day" for 2004..2020;
-$holidays{ $_, 12, 26 } = "Boxing Day" for 2004..2020;
+$_holidays{ 2004, 12, 27 } = "Substitute Bank Holiday in lieu of 26 Dec";
 
-$holidays{ 2004, 12, 27 } = "Substitute Bank Holiday in lieu of 26 Dec";
+$_holidays{ 2004, 12, 28 } =
+$_holidays{ 2005, 12, 27 } = "Substitute Bank Holiday in lieu of 25 Dec";
 
-$holidays{ 2004, 12, 28 } =
-$holidays{ 2005, 12, 27 } = "Substitute Bank Holiday in lieu of 25 Dec";
+$_holidays{ 2010, 12, 27 } = "Substitute Bank Holiday in lieu of 25 Dec";
+$_holidays{ 2010, 12, 28 } = "Substitute Bank Holiday in lieu of 26 Dec";
 
-$holidays{ 2010, 12, 27 } = "Substitute Bank Holiday in lieu of 25 Dec";
-$holidays{ 2010, 12, 28 } = "Substitute Bank Holiday in lieu of 26 Dec";
+tie %holidays, 'Date::Holidays::UK::EnglandAndWales';
 
 sub is_uk_holiday {
-    warn "IN";
     shift if $_[0] eq __PACKAGE__ or ref $_[0];
-    my ($year, $month, $day) = @_;
-    $month =~ s/^0//;
-    $day   =~ s/^0//;
-    warn "$year $month $day";
-    return exists $holidays{ $year, $month, $day }?
-    	$holidays{ $year, $month, $day }
-    :	undef;
+	
+    my ($year, $month, $day) = $#_ > 0 ? @_ : split/\D+/,$_[0],3;
+    $month =~ s/^0// if $month;
+    $day   =~ s/^0// if $day;
+
+    return $_holidays{ $year, $month, $day }
+    	if exists $_holidays{ $year, $month, $day };
+
+	if ($month == 12){
+		return 'Christmas Day'		if $day == 25;
+		return 'Boxing Day'			if $day == 26;
+	}
+	if ($month == 1){
+		return 'New Year\'s Day'	if $day == 1;
+	}
 }
 
 # alias
 *is_holiday = *is_uk_holiday;
 
-
+# tie API forwards to legacy API
+sub FETCH {
+	return is_uk_holiday( @_ );
+}
+	
 1;
 
 __END__
@@ -146,11 +156,11 @@ is taken as the canonical source for bank holidays.
 
 =head1 CAVEATS
 
-We only currently contain the DTI bank holiday detail, which at the
+We only currently contain the DTI Bank Holiday detail, which at the
 time of writing only covers the years 2004-2010.
 
-These bank and public holidays are holidays in England and Wales,
-and not necessarily for Scotland and Northern Ireland.
+These Bank and Public Holidays are holidays in England and Wales,
+and not necessarily in Scotland and Northern Ireland.
 
 =head1 AUTHOR
 

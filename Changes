@@ -1,7 +1,10 @@
 Revision history for Date-Holidays-UK-EnglandAndWales
 
+0.02	2007-08-11 15:02:00
+		Updated POD to satisfy cpantesters pod_cover tests
+		Added tie() to cover Crimbo, Boxing Day, and New Year's Eve
+		
 0.01    2007-08-10 10:50:00
         First version, created with the command:
         
         perl C:\cygwin\bin\module-starter --module=Date::Holidays::UK::EnglandAndWales --author="Lee Goddard" --email="lgoddard-at-cpan.org"
-
