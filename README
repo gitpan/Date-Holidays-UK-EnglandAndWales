@@ -12,17 +12,6 @@ To install this module, run the following commands:
 These bank and public holidays are holidays in England and Wales,
 and not necessarily for Scotland and Northern Ireland.
 
-MODULE HISTORY
-
-This module is based on L<Date::Holidays::UK|Date::Holidays::UK>
-by Richard Clamp, Amelie Guyot, Jerome Parfant, which did not contain
-the dates needed by my clients.
-
-As Msrs Clamp et al note in the L<POD for their module|Date::Holidays::UK/DESCRIPTION>,
-Naming modules is a tricky thing: I've named this C<EnglandAndWales> because
-the C<UK> module cannot include holidays for Northern Ireland and Scotland,
-and maintain its API.
-
 SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module with the perldoc command.
@@ -45,7 +34,7 @@ You can also look for information at:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2007 Lee Goddard
+Copyright (C) 2007, 2011 Lee Goddard
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

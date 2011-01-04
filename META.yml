@@ -1,12 +1,21 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Date-Holidays-UK-EnglandAndWales
-version:      0.02
-version_from: lib/Date/Holidays/UK/EnglandAndWales.pm
-installdirs:  site
+--- #YAML:1.0
+name:               Date-Holidays-UK-EnglandAndWales
+version:            0.03
+abstract:           Public Holidays in England and Wales
+author:
+    - Lee Goddard <lgoddard-at-cpan.org>
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
 requires:
-    Test::More:                    0
-    Tie::Hash:                     0
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.30
+    Test::More:  0
+    Tie::Hash:   0
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.48
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
